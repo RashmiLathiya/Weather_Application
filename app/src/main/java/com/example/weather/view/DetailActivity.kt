@@ -3,8 +3,6 @@ package com.example.weather.view
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,12 +17,6 @@ import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : AppCompatActivity() {
 
-    lateinit var cityTextView: TextView
-    lateinit var imageView: ImageView
-    lateinit var descTextView: TextView
-    lateinit var tempTextView: TextView
-    lateinit var humTextView: TextView
-    lateinit var windTextView: TextView
     private lateinit var model: WeatherInfoShowModel
     private lateinit var viewModel: WeatherInfoViewModel
 
@@ -34,18 +26,10 @@ class DetailActivity : AppCompatActivity() {
 
         model = WeatherInfoShowModelImpl(applicationContext)
         viewModel = ViewModelProviders.of(this).get(WeatherInfoViewModel::class.java)
-        tempTextView = findViewById(R.id.tempTextview)
-        cityTextView = findViewById(R.id.cityTextview)
-        descTextView = findViewById(R.id.descTextview)
-        humTextView = findViewById(R.id.humidityTextview)
-        imageView = findViewById(R.id.imageView)
-        windTextView = findViewById(R.id.windTextview)
 
         val cityName:String = intent.getStringExtra("CITY").toString()
         getWeatherInfo(cityName)
         setWeatherInfo()
-
-
 
     }
     private fun getWeatherInfo(cityName : String) {
@@ -59,20 +43,20 @@ class DetailActivity : AppCompatActivity() {
         })
 
         viewModel.weatherInfoFailureLiveData.observe(this, Observer { errorMessage ->
-            tv_error_message.visibility = View.VISIBLE
-            tv_error_message.text = errorMessage
+            text_error_message.visibility = View.VISIBLE
+            text_error_message.text = errorMessage
         })
     }
 
     private fun setWeatherInfo(weatherData: WeatherData) {
-        tv_error_message.visibility = View.GONE
-        tempTextView.text = weatherData.temperature
-        cityTextView.text = weatherData.cityAndCountry
+        text_error_message.visibility = View.GONE
+        text_temp.text = weatherData.temperature
+        text_city.text = weatherData.cityAndCountry
         Glide.with(this).load(weatherData.weatherConditionIconUrl).into(imageView)
-        descTextView.text = weatherData.weatherConditionIconDescription
-        humTextView.text = weatherData.humidity
-        windTextView.text = weatherData.wind
-        tv_time.text = weatherData.dateTime
+        text_description.text = weatherData.weatherConditionIconDescription
+        text_humidity.text = weatherData.humidity
+        text_wind.text = weatherData.wind
+        text_time.text = weatherData.dateTime
     }
 
     private fun sharedPreferencesTime(weatherData: WeatherData) {

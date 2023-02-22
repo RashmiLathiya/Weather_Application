@@ -1,18 +1,15 @@
 package com.example.weather.view
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.R
 import com.example.weather.RecyclerAdapter
+import kotlinx.android.synthetic.main.activity_weather.*
 
 class Weather_List : AppCompatActivity() {
 
-        lateinit var lngRV: RecyclerView
-        lateinit var addEdt: EditText
-        lateinit var addBtn: Button
+        lateinit var recyclerView: RecyclerView
         lateinit var lngList: ArrayList<String>
         lateinit var recyclerAdapter: RecyclerAdapter
 
@@ -20,9 +17,7 @@ class Weather_List : AppCompatActivity() {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_weather)
 
-            lngRV = findViewById(R.id.recycler_view)
-            addEdt = findViewById(R.id.id_Edt_Add)
-            addBtn = findViewById(R.id.id_btn_add)
+            recyclerView = findViewById(R.id.recycler_view)
             lngList = ArrayList()
 
             lngList.plusAssign("London")
@@ -30,10 +25,10 @@ class Weather_List : AppCompatActivity() {
             lngList.plusAssign("Paris")
 
             recyclerAdapter = RecyclerAdapter(lngList = lngList)
-            lngRV.adapter = recyclerAdapter
+            recyclerView.adapter = recyclerAdapter
 
-            addBtn.setOnClickListener {
-                addItem(addEdt.text.toString())
+            button_Add.setOnClickListener {
+                addItem(editText_AddCity.text.toString())
             }
             recyclerAdapter.notifyDataSetChanged()
 
